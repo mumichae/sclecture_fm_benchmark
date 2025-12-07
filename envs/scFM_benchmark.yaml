@@ -1,6 +1,4 @@
-name: scanpy
-# Note: feel free to change the name of the environment, 
-# and update the YAML file name accordingly to keep them consistent
+name: scFM_benchmark
 channels:
   - conda-forge
   - bioconda
@@ -16,7 +14,7 @@ dependencies:
   - zarr<3
   - ipykernel
   - ipywidgets
-  - requests
+  - cellxgene-census
   - pip
   - pip:
     - git+https://github.com/mumichae/scAtlasTb_utils.git
