@@ -14,7 +14,7 @@ dependencies:
   - zarr<3
   - ipykernel
   - ipywidgets
-  - cellxgene-census
+  - curl
   - pip
   - pip:
     - git+https://github.com/mumichae/scAtlasTb_utils.git
