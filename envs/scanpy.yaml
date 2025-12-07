@@ -1,0 +1,23 @@
+name: scanpy
+# Note: feel free to change the name of the environment, 
+# and update the YAML file name accordingly to keep them consistent
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - anndata=0.11
+  - scanpy=1.11
+  - leidenalg
+  - louvain
+  - dask
+  - dask-ml
+  - sparse
+  - zarr<3
+  - ipykernel
+  - ipywidgets
+  - requests
+  - pip
+  - pip:
+    - git+https://github.com/mumichae/scAtlasTb_utils.git
+    - pandas<2

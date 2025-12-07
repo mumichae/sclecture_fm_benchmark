@@ -1,0 +1,21 @@
+name: scanpy_r
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - anndata=0.11
+  - scanpy=1.11
+  - pandas<2
+  - leidenalg
+  - dask
+  - zarr<3
+  - ipywidgets
+  - ipykernel
+  - r-base
+  - r-biocmanager
+  - r-irkernel
+  - pip
+  - pip:
+    - git+https://github.com/mumichae/scAtlasTb_utils.git
+    - pandas<2
