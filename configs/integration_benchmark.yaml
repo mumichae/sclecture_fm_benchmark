@@ -1,0 +1,21 @@
+#TODO: set up workflow!
+DATASETS:
+  
+  INTEGRATION_BENCHMARK:
+    input:
+      preprocessing:
+        Retina_ganglion_ex_midget: data/cxg/Retina_ganglion_ex_midget.h5ad
+      integration: preprocessing
+      metrics: integration
+    
+    # preprocessing;
+    #  TODO: configure
+    #   ...
+    
+    # integration:
+    #  TODO: configure
+    #   ...
+
+    # metrics:
+    #  TODO: configure
+    #   ...
