@@ -1,0 +1,14 @@
+DATASETS:
+  QC:
+    input:
+      doublets:
+        # Retina_snRNA: data/pipeline/load_data/download/Retina_snRNA.h5ad
+        # Retina_scRNA: data/pipeline/load_data/download/Retina_scRNA.h5ad
+        Retina_ganglion_ex_midget: data/cxg/Retina_ganglion_ex_midget.h5ad
+      qc: doublets
+    
+    doublets:
+      counts: X
+      batch: library_id
+      chunk_size: 20_000
+  
