@@ -4,18 +4,81 @@ DATASETS:
   INTEGRATION_BENCHMARK:
     input:
       preprocessing:
-        Retina_ganglion_ex_midget: data/cxg/Retina_ganglion_ex_midget.h5ad
+        Retina_ganglion_ex_midget: data/cxg/retina_ganglion_ex_midget.h5ad
       integration: preprocessing
       metrics: integration
-    
-    # preprocessing;
-    #  TODO: configure
-    #   ...
-    
+
+    preprocessing:
+      highly_variable_genes:
+        n_top_genes: 2000
+        flavor: seurat_v3
+        batch_key: sample_id
+        dask: false
+
+      normalize_per_cell:
+        target_sum: 1e4       
+      scale:
+        max_value: 10
+
+      pca:
+        n_comps: 50
+
+      #add_batch_integration_column:
+        #source: library_id
+        
     # integration:
     #  TODO: configure
     #   ...
+    integration:
+      batch: sample_id
+      label: cell_type
+      
+      methods:
+        unintegrated:
 
+        harmony_pytorch:
+          n_comps: 50
+          scale: true
+
+        scvi:
+          n_latent: 30
+          encode_covariates: true
+          deeply_inject_covariates: false
+          use_layer_norm: both
+          use_batch_norm: none
+          gene_likelihood: nb
+          max_epochs: 20
+          early_stopping: true
+
+        drvi:
+          n_latent: 30
+          encoder_dims:
+            - [128, 128]
+          decoder_dims:
+            - [128, 128]
+          max_epochs: 20
+          early_stopping: true
+          
     # metrics:
     #  TODO: configure
     #   ...
+    metrics:
+      label: cell_type
+      batch: sample_id
+
+      raw_counts: layers/counts
+      unintegrated: layers/normcounts
+      var_mask: highly_variable
+
+      overwrite_file_id: true
+      weight_batch: 0.4
+
+      metrics:
+        - nmi
+        - ari
+        - clisi
+        - ilisi
+        - graph_connectivity
+        - isolated_label_f1
+        - pcr_comparison
+        - kbet_pg
