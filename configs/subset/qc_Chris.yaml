@@ -1,0 +1,11 @@
+DATASETS:
+  QC_chris:
+    input:
+      doublets:
+        Retina_ganglion_ex_midget_chris: data/cxg_link/retina_all.h5ad
+      qc: doublets
+
+    doublets:
+      counts: X
+      batch: suspension_uuid
+      chunk_size: 20_000

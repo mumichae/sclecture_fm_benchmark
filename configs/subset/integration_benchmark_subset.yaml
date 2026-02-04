@@ -1,0 +1,16 @@
+DATASETS:
+  INTEGRATION_BENCHMARK:
+    input:
+      preprocessing:
+        retina_ganglion_ex_midget: data/cxg/retina_ganglion_ex_midget.h5ad
+      integration: preprocessing
+      metrics: integration
+
+    integration:
+      batch: library_id
+      label: cell_type
+
+    metrics:
+      batch: library_id
+      label: cell_type
+      

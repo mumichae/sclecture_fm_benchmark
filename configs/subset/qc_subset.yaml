@@ -1,0 +1,29 @@
+DATASETS:
+  QC_subset:
+    input:
+      doublets:
+        Retina_ganglion_ex_midget: data/cxg/retina_ganglion_ex_midget.h5ad
+      qc: doublets
+
+    doublets:
+      counts: X
+      batch: library_id
+      chunk_size: 20_000
+
+    qc:
+      counts: X
+      hue:
+        - cell_type
+        - author_cell_type
+        - donor_id
+        - library_id
+        - sample_id
+        - disease
+        - sex
+      scautoqc_gaussian_kwargs:
+        threshold: 0.1
+      scautoqc_metrics:
+        - nCount_RNA # these aren't correct for this setting
+        - nFeature_RNA
+        - percent.mt
+        - scrublet_score

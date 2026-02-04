@@ -1,0 +1,184 @@
+output_dir: data/pipeline_subset
+images: data/images_subset
+
+os: intel
+cran_url: http://cran.us.r-project.org
+use_gpu: true
+
+dataset_meta: configs/datasets.tsv
+schema_file: configs/schema_mapping_tier1.tsv
+
+
+defaults:
+
+  preprocessing:
+    raw_counts: X
+    normalize:
+      target_sum: 10_000
+    highly_variable_genes:
+      n_top_genes: 2000
+      batch_key: library_id
+      dask: false
+    assemble:
+      - normalize
+      - highly_variable_genes
+    colors:
+      - cell_type
+      - sample_id
+      - library_id
+      - study_name
+
+  integration:
+    batch: library_id
+    label: cell_type
+    raw_counts: X
+    norm_counts: X
+    var_mask: highly_variable
+    output_types:
+      - embed
+    umap_colors:
+      - cell_type
+      - author_cell_type
+      - library_id
+      - sample_id
+      - donor_id
+      - sex
+      - disease
+      - assay
+      - tissue
+      - development_stage
+      - nCount_RNA
+      - nFeature_RNA
+      - percent.mt
+
+    methods:
+      # comment or uncomment methods to include/exclude them from the workflow
+      unintegrated:
+      harmony_pytorch:
+        n_comps: 50
+        scale: true
+      scvi:
+        n_latent: 30
+        encode_covariates: True
+        deeply_inject_covariates: False
+        use_layer_norm: both
+        use_batch_norm: none
+        gene_likelihood: nb
+        max_epochs: 20
+        early_stopping: true
+      # scanvi:
+      #   n_latent: 30
+      #   encode_covariates: True
+      #   deeply_inject_covariates: False
+      #   use_layer_norm: both
+      #   use_batch_norm: none
+      #   gene_likelihood: nb
+      #   max_epochs: 20
+      #   early_stopping: true
+      drvi:
+        n_latent: 30
+        encoder_dims:
+          - [128, 128]
+        decoder_dims:
+          - [128, 128]
+        max_epochs: 20
+        early_stopping: true
+      # scpoli:
+      #   embedding_dims: 128
+      #   recon_loss: nb
+      #   n_epochs: 20
+      #   unlabeled_prototype_training: false
+      #   eta: 0.3
+
+  clustering:
+    algorithm: leiden
+    use_gpu: false
+    neighbors:
+      use_rep: X_emb
+    resolutions:
+      - 0.5
+    hierarchy:
+      2: 0.2
+      3: 0.5
+    umap_colors:
+      - assay
+      # - dataset
+      # - cell_type_reannotatedIntegrated
+      # - cell_subtype_beta_coarse_reannotatedIntegrated
+      # - cell_subtype_beta_fine_reannotatedIntegrated
+      # - cell_subtype_endothelial_reannotatedIntegrated
+      # - cell_subtype_immune_reannotatedIntegrated
+      - cell_type
+      - author_cell_type
+      # - cell_type_originalDataset_unified
+      # - majority_reference
+      - library_id
+      - donor_id
+      - sample_id
+      - sex
+      - disease
+      - nCount_RNA
+      - nFeature_RNA
+      - percent.mt
+
+
+  metrics:
+    unintegrated: X
+    raw_counts: X
+    var_mask: highly_variable
+    overwrite_file_id: true
+    weight_batch: 0.4
+    label: cell_type
+    batch: library_id
+
+    
+    metrics:
+      - nmi
+      - ari
+      # - asw_label
+      # - asw_batch
+      - cell_cycle
+      - clisi
+      - ilisi
+      - graph_connectivity
+      - isolated_label_f1
+      - pcr_comparison
+      # - pcr
+      # - pcr_genes
+      - kbet_pg
+  
+  marker_genes:
+    groups:
+      - cell_type
+      # - leiden_0.5_2
+    rank_genes_groups:
+      reference: rest
+      method: wilcoxon
+    plot:
+      n_genes: 10
+    layer: X
+
+  #label_transfer:
+    #majority_reference:
+      #reference_key: cell_type_reannotatedIntegrated
+      #query_key: leiden_0.5_3
+      #crosstab_kwargs:
+        #dropna: true
+
+  collect:
+    sep: --
+    same_slots:
+      - X
+      - var
+      - layers
+    merge_slots:
+      - obs
+      - obsm
+      - obsp
+      - uns
+    skip_slots:
+      - raw
+  
+  #majority_voting:
+    #columns:
+      #- majority_reference--.*
