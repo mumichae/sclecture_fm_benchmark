@@ -17,20 +17,19 @@ defaults:
       target_sum: 10_000
     highly_variable_genes:
       n_top_genes: 2000
-      batch_key: dataset
+      batch_key: sample_id
       dask: false
     assemble:
       - normalize
       - highly_variable_genes
     colors:
-      - dataset
       - cell_type
-      - batch_integration
-      - age
-      - disease
+      - sample_id
+      - library_id
+      - study_name
 
   integration:
-    batch: batch_integration
+    batch: sample_id
     label: cell_type
     raw_counts: layers/counts
     norm_counts: layers/normcounts
@@ -73,14 +72,14 @@ defaults:
       #   gene_likelihood: nb
       #   max_epochs: 20
       #   early_stopping: true
-      # drvi:
-      #   n_latent: 30
-      #   encoder_dims:
-      #     - [128, 128]
-      #   decoder_dims:
-      #     - [128, 128]
-      #   max_epochs: 20
-      #   early_stopping: true
+      drvi:
+        n_latent: 30
+        encoder_dims:
+          - [128, 128]
+        decoder_dims:
+          - [128, 128]
+        max_epochs: 20
+        early_stopping: true
       # scpoli:
       #   embedding_dims: 128
       #   recon_loss: nb
@@ -100,13 +99,14 @@ defaults:
       3: 0.5
     umap_colors:
       - assay
-      - dataset
-      - cell_type_reannotatedIntegrated
+      # - dataset
+      # - cell_type_reannotatedIntegrated
       # - cell_subtype_beta_coarse_reannotatedIntegrated
       # - cell_subtype_beta_fine_reannotatedIntegrated
       # - cell_subtype_endothelial_reannotatedIntegrated
       # - cell_subtype_immune_reannotatedIntegrated
-      - cell_type_originalDataset_unified
+      - cell_type
+      # - cell_type_originalDataset_unified
       # - majority_reference
       - qc_status
       - age
@@ -123,12 +123,10 @@ defaults:
     var_mask: highly_variable
     overwrite_file_id: true
     weight_batch: 0.4
-    label: cell_type_originalDataset_unified
-    batch: batch_integration
-    covariates:
-      - age
-      - diabetes_model
-    gene_sets: MIA
+    label: cell_type
+    batch: simple_id
+
+    
     metrics:
       - nmi
       - ari
@@ -140,7 +138,6 @@ defaults:
       - graph_connectivity
       - isolated_label_f1
       - pcr_comparison
-      - morans_i_genes
       # - pcr
       # - pcr_genes
       - kbet_pg
