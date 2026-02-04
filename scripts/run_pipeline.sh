@@ -9,5 +9,6 @@ snakemake \
   --configfile \
     configs/defaults.yaml  \
     configs/qc.yaml  \
+    configs/integration_benchmark.yaml  \
   --snakefile $pipeline/workflow/Snakefile \
     $@
