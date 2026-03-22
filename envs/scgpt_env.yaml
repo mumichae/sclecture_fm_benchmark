@@ -1,0 +1,30 @@
+name: scgpt_env
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - scanpy
+  - anndata
+  - scvi-tools
+  - python-igraph
+  - leidenalg
+  - wandb
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.8
+  - torchtext
+  - pip
+  - pip:
+      - scgpt
+      - "orbax<0.1.8"
+      - tensorboard
