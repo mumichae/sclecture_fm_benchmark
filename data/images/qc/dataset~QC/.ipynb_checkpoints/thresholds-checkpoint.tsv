@@ -1,0 +1,5 @@
+dataset	file_id	threshold_type	passed_frac	removed_frac	n_passed	n_removed	n_total	percent_mito_min	percent_mito_max	n_genes_min	n_genes_max	n_counts_min	n_counts_max
+QC	doublets:Retina_ganglion_ex_midget_chris	sctk_autoqc	0.967455190168553	0.032544809831447	19917	670	20587	0.0	0.7546998	2058.11	11187.997	3685.676	6424.037
+QC	doublets:Retina_ganglion_ex_midget_chris	user	0.0	1.0	0	20587	20587						
+QC	doublets:Retina_ganglion_ex_midget_chris	alternative	0.0	1.0	0	20587	20587						
+QC	doublets:Retina_ganglion_ex_midget_chris	updated	0.967455190168553	0.032544809831447	19917	670	20587	0.0	0.7546998	2058.11	11187.997	3685.676	6424.037
