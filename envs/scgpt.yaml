@@ -1,0 +1,29 @@
+name: scGPT
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - jupyter
+  - notebook
+  - scanpy
+  - pandas
+  - matplotlib
+  - numpy<2.0
+  - pytorch==2.0.1
+  - pytorch-cuda=11.7
+  - scipy
+  - scikit-learn
+  - tqdm
+  - pip:
+    - scgpt
+    - tdc
+    - flash-attn
+    - transformers
+    - wandb
+    - scib
+
