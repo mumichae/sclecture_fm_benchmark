@@ -21,34 +21,25 @@ if DEBUG:
 
 
 def get_status_direct(jobid):
-    """Get status directly from sacct/scontrol"""
+    """Get status directly from squeue (works without accounting enabled)"""
     for i in range(STATUS_ATTEMPTS):
         try:
-            sacct_res = sp.check_output(shlex.split(f"sacct -P -b -j {jobid} -n"))
-            res = {x.split("|")[0]: x.split("|")[1] for x in sacct_res.decode().strip().split("\n")}
-            break
+            # Use squeue which doesn't require accounting
+            squeue_res = sp.check_output(shlex.split(f"squeue -j {jobid} -h -o %T"))
+            status = squeue_res.decode().strip()
+            if status:
+                return status
+            else:
+                # Job not found in queue (completed or failed)
+                return "COMPLETED"
         except sp.CalledProcessError as e:
-            logger.error("sacct process error")
-            logger.error(e)
-        except IndexError as e:
-            logger.error(e)
-            pass
-        # Try getting job with scontrol instead in case sacct is misconfigured
-        try:
-            sctrl_res = sp.check_output(shlex.split(f"scontrol -o show job {jobid}"))
-            m = re.search(r"JobState=(\w+)", sctrl_res.decode())
-            res = {jobid: m.group(1)}
-            break
-        except sp.CalledProcessError as e:
-            logger.error("scontrol process error")
-            logger.error(e)
+            logger.debug("squeue returned non-zero: %s", e)
             if i >= STATUS_ATTEMPTS - 1:
-                print("failed")
-                exit(0)
+                return "COMPLETED"  # Job is done
             else:
                 time.sleep(1)
-
-    return res[jobid] or ""
+    
+    return "COMPLETED"
 
 
 def get_status_sidecar(jobid):

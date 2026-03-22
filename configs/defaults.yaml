@@ -8,6 +8,18 @@ use_gpu: true
 dataset_meta: configs/datasets.tsv
 schema_file: configs/schema_mapping_tier1.tsv
 
+resources:
+  cpu:
+    partition: local
+    qos: ''
+    gpu: 0
+    mem_mb: 64000
+  gpu:
+    partition: local
+    qos: ''
+    gpu: 0
+    mem_mb: 64000
+
 
 defaults:
 
