@@ -8,7 +8,7 @@ snakemake \
   --profile .profiles/local \
   --configfile \
     configs/defaults.yaml  \
-    configs/qc.yaml  \
-    configs/integration_benchmark.yaml  \
+    configs/marker_genes.yaml  \
+    configs/integration.yaml  \
   --snakefile $pipeline/workflow/Snakefile \
     $@

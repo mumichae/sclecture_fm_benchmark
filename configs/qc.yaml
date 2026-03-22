@@ -5,7 +5,7 @@ DATASETS:
         # Retina_snRNA: data/pipeline/load_data/download/Retina_snRNA.h5ad
         # Retina_scRNA: data/pipeline/load_data/download/Retina_scRNA.h5ad
         # Retina_ganglion_ex_midget: data/cxg/Retina_ganglion_ex_midget.h5ad
-        Retina_all: data/cxg_link/retina_all.h5ad
+        Retina_all: data/cxg/retina_all.h5ad
       qc: doublets
 
     doublets:
